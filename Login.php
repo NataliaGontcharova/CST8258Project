@@ -6,7 +6,7 @@ include_once "Functions.php";
 $loginError = '';
 
 extract($_POST); 
-if(isset($regSubmit)){
+if(isset($loginSubmit)){
     try
     {
         $user = getUserByIdAndPassword($userId, $password);
@@ -30,70 +30,51 @@ if(isset($regSubmit)){
         exit();
     }
     else if(isset($regClear)){
-        $userID = '';
+        $userI = '';
         $password = '';    
     }
 }
-
- 
-    
+   
     ?>
 
-
-
-
+<div class="container">
+    <h2>Log in</h2>
+    <br/>
+   <p> You need to <a href="NewUser.php">sign up</a> if you are a new user</p>
+    <br/>
+    
+    <form action="Login.php" method="post">
+        <div class="form-group row">
+             <label for="StudentId" class="col-sm-2 col-form-label fw-bold">User ID:</label>
+             <div class="col-sm-3">
+             <input type="text" class="form-control" name="userId" id="userId" value="<?php echo isset($userId)? $userId : '' ?>" >
+             </div>
              <div class="col-sm-3 text-danger">
-                 <?php echo $loginError ?>
+                 <?php echo (isset($loginSubmit))? ValidateUserID($userId): '' ?>
              </div> 
-
-<section class="vh-100" style="background-color: #eee;">
-  <div class="container v-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-lg-12 col-xl-11">
-        <div class="card text-black" style="border-radius: 25px;">
-          <div class="card-body p-md-5 vh-100">
-            <div class="row justify-content-center">
-              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
-                <p class="text-center h1 fw-bold mb-3 mx-1 mx-md-4 mt-3">Log in</p>
- <p class="text-center h6  mb-3 mx-1 mx-md-4 mt-3">You need to sign up if you are new user</p>
-                <form class="mx-1 mx-md-4" method="post">
-                   <div class="d-flex flex-row align-items-center mb-2">
-                   
-                    <div class="form-outline flex-fill mb-0">
-                      <input type="text" name="userId" class="form-control" />
-                      <label class="form-label" for="userId">User Id </label>
-                    </div>
-                  </div>                
-              
-                  <div class="d-flex flex-row align-items-center mb-2">                   
-                    <div class="form-outline flex-fill mb-0">
-                      <input type="password" name="password" class="form-control" />
-                      <label class="form-label" for="password">Password</label>
-                    </div>
-                  </div>                             
-
-                  <div class="d-flex justify-content-start  mb-3 mb-lg-4">
-                    <input class="btn btn-success mr-3" name="regSubmit" type="submit" value="Submit" >
-                    <input class="btn btn-success" name="regClear" type="submit" value="Clear" >
-                  </div>
-
-                </form>
-
-              </div>
-              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                  <img src="Common/img/undraw_secure_login_pdn4.svg" class="img-fluid" alt="Sample image">
-
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
+       
+         <div class="form-group row">
+             <label for="password" class="col-sm-2 col-form-label fw-bold">Password:</label>
+             <div class="col-sm-3">
+                 <input type="password" class="form-control" name="password" id="password" value="<?php echo isset($password) ? $password :''?>">
+             </div>
+             <div class="col-sm-3 text-danger">
+               <?php echo isset($loginSubmit)? $loginError: "" ?>  
+             </div> 
+        </div>
+      
+         <div class="form-group row">
+           
+        <div class="col-md-2">
+        <input class="btn btn-primary" name="loginSubmit" type="submit" value="Submit" >
+        </div>
+          <div class="col-md-1">   
+        <input class="btn btn-primary" name="clear" type="submit" value="Clear" >
+           </div>     
+        </div>
+        
+        </form>
 
 <?php include('./common/Footer.php'); ?>
 

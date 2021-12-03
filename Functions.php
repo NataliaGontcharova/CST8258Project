@@ -10,7 +10,7 @@ function getPDO()
 
 
 class User {
-  public $userID;
+  public $userId;
   public $name;
   public $phone;
 }
@@ -66,20 +66,20 @@ function checkIfUserExists($userId)
 
 
 
-function addNewUser($userID, $name, $phone, $password )
+function addNewUser($userId,$name, $phone, $password )
 {
     $pdo = getPDO();
     
     $hashed_password = password_hash($password, PASSWORD_DEFAULT );
     
-    $sql = "INSERT INTO User(`UserId`,`Name`,`Phone`,`Password`) VALUES ('$userID', '$name', '$phone', '$hashed_password')";
+    $sql = "INSERT INTO User(`UserId`,`Name`,`Phone`,`Password`) VALUES ('$userId', '$name', '$phone', '$hashed_password')";
     $pdoStm = $pdo->query($sql);
 }
 
 // validation functions
-function ValidateUserID($userID)
+function ValidateUserID($userId)
     {
-       return (!isset($userID) || $userID === "")? "Name is required" : "";             
+       return (!isset($userId) || $userId === "")? "Name is required" : "";             
     } 
 function ValidateName($name)
     {

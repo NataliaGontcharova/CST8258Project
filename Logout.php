@@ -6,3 +6,8 @@
  * and open the template in the editor.
  */
 
+    session_start();
+    session_destroy();
+    header("Location:home.php");
+
+?>

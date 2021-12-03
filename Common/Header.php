@@ -1,4 +1,8 @@
-<?php ?>
+<?php 
+session_start();
+
+    $logon = (isset($_SESSION['user']) && $_SESSION['user'] !== '')? 'out': 'in';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +20,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-between">
   
   <a class="navbar-brand" href="#">
       <img src="Common/img/Algonquin_College_logo.svg.png" alt="" style="width: 200px">
@@ -40,7 +44,7 @@
       <a class="nav-link" href="UploadPictures.php">Upload Pictures</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="login.php">Log In</a>
+      <a class="nav-link" href="login.php">Log <?php echo $logon ?></a>
     </li>
   </ul>
 </nav>

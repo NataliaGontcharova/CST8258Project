@@ -1,7 +1,7 @@
 <?php 
 session_start();
-
-    $logon = (isset($_SESSION['user']) && $_SESSION['user'] !== '')? 'out': 'in';
+//    $_SESSION['user'] = 'aa';
+    $logon = (isset($_SESSION['user']) && $_SESSION['user'] !== '')? 'out': 'in';    
 ?>
 
 <!DOCTYPE html>

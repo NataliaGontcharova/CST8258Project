@@ -1,4 +1,5 @@
 <?php 
+session_start();
     include('./common/Header.php'); 
    
 include_once "Functions.php";
@@ -24,12 +25,7 @@ if(isset($loginSubmit)){
       }
  }
  else {
-    if(isset($_SESSION['user']) && $_SESSION['user'] !== '') {
-        $_SESSION['user']  = '';
-        header("Location: index.php");
-        exit();
-    }
-    else if(isset($regClear)){
+    if(isset($regClear)){
         $userI = '';
         $password = '';    
     }
@@ -77,5 +73,4 @@ if(isset($loginSubmit)){
         </form>
 
 <?php include('./common/Footer.php'); ?>
-
 

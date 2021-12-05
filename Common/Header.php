@@ -1,7 +1,5 @@
 <?php 
-session_start();
-//    $_SESSION['user'] = 'aa';
-    $logon = (isset($_SESSION['user']) && $_SESSION['user'] !== '')? 'out': 'in';    
+session_start();   
 ?>
 
 <!DOCTYPE html>
@@ -43,11 +41,13 @@ session_start();
     <li class="nav-item">
       <a class="nav-link" href="UploadPictures.php">Upload Pictures</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="login.php">Log <?php echo $logon ?></a>
-    </li>
+    <?php
+        if(isset($_SESSION["user"]))
+        {
+            print_r('<li class="nav-item"><a href="Logout.php" class="nav-link">Log Out</a></li>');
+        } else {
+            print_r('<li class="nav-item"><a href="Login.php" class="nav-link">Log In</a></li>');
+        }
+    ?>
   </ul>
 </nav>
-
-
-

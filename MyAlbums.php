@@ -1,8 +1,8 @@
 <?php 
-    include('./common/Header.php'); 
-    
+    session_start();
     if(!isset($_SESSION['user']) || $_SESSION['user'] === '') {
-         header("Location: Index.php");       
+         header("Location: Index.php");
+        
     } else {
         $userId =$_SESSION['user'];
     } 
@@ -10,6 +10,7 @@
     {
         $accessOption = $_SESSION['AccessOptions'];
     }
+    include('./common/Header.php'); 
     ?>
 <?php 
 $dbConnection = parse_ini_file("Project.ini");
@@ -27,92 +28,145 @@ $sqlAlbum= "SELECT Album_Id, Title, Description, Date_Updated, Accessibility_Cod
 $queryAlbum = $conn->prepare($sqlAlbum);
 $queryAlbum->execute();
 $resultAlbum = $queryAlbum->fetchAll();  
-//Array ( [Album_Id] => 20 [Title] => t [Description] => tt [Date_Updated] => 2021-12-05 [Accessibility_Code] => private )
-//print_r($resultAlbum[4]["Title"]);
+
 $num = count($resultAlbum);
   
-if(isset($_POST["delete"]))
+//print_r("確認acc 36");
+if(isset($_POST["delect"]))
 {
     if(isset($_POST["deleteID"]))
     {
-        //delete
-        $sqldeletee="DELETE FROM album WHERE Album_Id='{$_POST["deleteID"]}'&& Owner_Id='{$userId}' ";
-        $queryDele = $conn->prepare($sqldeletee);
+        echo 'catch this id to delete';
+        print_r ($_POST["deleteID"]);
+        //delect
+        foreach($_POST["deleteID"] as $item)
+        {
+            print_r($item); //get all input
+            $sqlDelecte="DELETE FROM album WHERE Album_Id='{$item}'&& Owner_Id='{$userId}' ";
+        $queryDele = $conn->prepare($sqlDelecte);
         $result=$queryDele->execute();
+        }        
+        if($result)
+        {
+            echo 'succ';            
+        } else {
+            echo 'false';    
+        }        
     }     
+} else {
+    if(isset($_POST["deleteID"]))
+    {
+        echo 'catch this id to delete';
+    print_r ($_POST["deleteID"]);}
+    
+    $sqlAlbum= "SELECT Album_Id, Title, Description, Date_Updated, Accessibility_Code FROM Album  WHERE Owner_Id = '{$userId}'";
+    $queryAlbum = $conn->prepare($sqlAlbum);
+    $queryAlbum->execute();
+    $resultAlbum = $queryAlbum->fetchAll();  
+
+    $num = count($resultAlbum);
 }
-if(isset($_POST['save']))
+if($_POST['save'])
 {
-    print_r($_POST['access']);
+    print_r($_POST['access']); //Array ( [0] => shared [1] => private )
+    if(isset($_POST["accID"])&& isset($_POST['access']))
+    {
+        $arrayAlbumId = $_POST["accID"];
+        $arraySelect = $_POST['access'];        
+        $numArrAlbumId = count($arrayAlbumId);
+    //save acc
+    for($i =0; $i< $numArrAlbumId;$i++)
+    {
+        $sqlAcc = "UPDATE Album SET Accessibility_Code = '{$arraySelect[$i]}' WHERE Album_Id='{$arrayAlbumId[$i]}' and Owner_Id = '{$userId}'";
+        $queryACC = $conn->prepare($sqlAcc);
+        $resultACC=$queryACC->execute();
+    }
+        if($resultACC)
+        {
+            //after save > reload data to diaplay
+            $sqlAlbum= "SELECT Album_Id, Title, Description, Date_Updated, Accessibility_Code FROM Album  WHERE Owner_Id = '{$userId}'";
+            $queryAlbum = $conn->prepare($sqlAlbum);
+            $queryAlbum->execute();
+            $resultAlbum = $queryAlbum->fetchAll();  
+            $num = count($resultAlbum); //display for            
+        }         
+    }
+} else {
+    //before save > reload displayed data
+    $sqlAlbum= "SELECT Album_Id, Title, Description, Date_Updated, Accessibility_Code FROM Album  WHERE Owner_Id = '{$userId}'";
+    $queryAlbum = $conn->prepare($sqlAlbum);
+    $queryAlbum->execute();
+    $resultAlbum = $queryAlbum->fetchAll();  
+    $num = count($resultAlbum); //display for
 }
-
 ?>
-
-
 <div class="container">  
-    <h3>My Albums</h3>
+    <h3> My Albums</h3>
     <h4>Welcome  <?php print_r($userName); ?> (not you? change user <a href="Login.php">here</a>)</h4>
-    <p><a href="AddAlbum.php">Create a New Album</a></p>
-    
-    
+    <p><a href="AddAlbum.php">Create a New Album</a></p>        
     <form action="MyAlbums.php" method="post">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Title</th>
+                    <th>ID-Title</th>
                     <th>Date Update</th>
-                    <th>Number of Pictures</th>
+                    <th>Number of Picture</th>
                     <th>Accessibility</th>
                     <th> </th>
                 </tr>
             </thead>
             <tbody>                    
-                <?php              
-                  for ($i=0; $i<$num;$i++) {
-                      
+                <?php                
+                  for ($i=0; $i<$num;$i++) {                      
                      echo "<tr>";
                      echo "<td><a href='MyPictures.php?albumId=".$resultAlbum[$i]["Album_Id"]."'>" . $resultAlbum[$i]["Album_Id"] ." - ".$resultAlbum[$i]["Title"] . "</a></td>";
-;
-                     echo "<td>" . $resultAlbum[$i]["Date_Updated"] . "</td>";
-                     
+                     echo "<td>" . $resultAlbum[$i]["Date_Updated"] . "</td>";                     
                      //show picnum
                      $sqlPic = "SELECT Picture_Id FROM Picture WHERE Album_Id = {$resultAlbum[$i]["Album_Id"]}";
                      $queryPic = $conn->prepare($sqlPic);
                     $queryPic->execute();
                     $resultPic = $queryPic->fetchAll();  
                      $numPic = count($resultPic);
-                     echo "<td>" .$numPic."</td>";                     
-                     
-                     echo "<td> <select name='access'>";
-
+                     echo "<td>" .$numPic."</td>";     
+             
+                    echo "<td> <select name='access[]' id='select'>";
                     foreach ($conn->query('SELECT * FROM accessibility ;') as $row)
                     {
-                        echo '<option value="'.$row[0].'"'.($row[0]== $resultAlbum[$i]["Accessibility_Code"]? "selected":'').' >'.$row[1].'</option>';
+                        echo '<option  value="'.$row[0].'"'.($row[0]== $resultAlbum[$i]["Accessibility_Code"]? "selected":'').' >'.$row[1].'</option>';
                     }
-                     
-                        echo '</select></td>';
-                       echo "<td><a onclick='return deleteClicked()' id='btndelete'>delete</a>"
-                                . "<input type='text' name='deleteID' value='".$resultAlbum[$i]["Album_Id"]."'></td>";
-                       
+                    echo '</select><input style="display:none;" type="text" name="accID[]" value="'.$resultAlbum[$i]["Album_Id"].'"></td>';
+                    echo "<td><input onclick='return delectClicked(".$resultAlbum[$i]['Album_Id'].")' id='btnDelet' class='btn btn-primary' type='button' name='delect' value='delete'>"
+                            . " <input   type='checkbox' name='deleteID[]' value='".$resultAlbum[$i]["Album_Id"]."'id='".$resultAlbum[$i]["Album_Id"]."'></td>";                       
                      echo "</tr>";
                  }
-
                 ?>
             </tbody>
         </table>
-         <input class="btn btn-primary" value="Delete" type="submit" name="delete" id="submitBtn">
+        <input class="btn btn-primary" value="delect" type="submit" name="delect" id="submitBtn" style='display:none;' >
           <input class="btn btn-primary" value="Save Change" type="submit" name="save" >
     </form>
     <script type="text/javascript">
-        function deleteClicked(){
-            return confirm("Please confirm to delete this albumn? ");
-        }
-        //tie confirm delete 
-        document.querySelector("#btndelete").addEventListener("click",function(){
-            alert("trigger submit")
-            document.getElementById("submitBtn").click();
-        },false)
-    </script>   
-  
+        var cheId;
+        function delectClicked(id){
+            cheId = id;
+            console.log("id is "+id);
+            return confirm("Please confirm to delect this albumn? ");
+        }        
+        //tie confirm delect 
+        document.querySelector('body').addEventListener('click', function (e) {
+      if (e.target.id === 'btnDelet') {
+            console.log(" checed ? "+cheId);
+            document.getElementById(cheId).checked = true;
+            document.getElementById("submitBtn").click(); 
+            }
+          })          
+    </script>     
 </div>
-<?php     include('./common/Footer.php'); ?>
+<?php include('./common/Footer.php'); ?>
+
+
+
+
+
+
+

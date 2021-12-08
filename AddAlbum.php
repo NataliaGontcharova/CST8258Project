@@ -1,5 +1,5 @@
 <?php 
-    session_start();
+    include("./common/header.php"); 
     if($_SESSION['userName'])
     {
         $userName=$_SESSION['userName'];
@@ -8,7 +8,6 @@
     {         
         $userId =$_SESSION['user'];
     }
-    include("./common/header.php"); 
 ?>
 <?php
 $arrAccess=[];
@@ -33,7 +32,7 @@ if($row)
 }
 
 //btn
-if($_POST['submit'])
+if(isset($_POST['submit']))
 {
     $time = (new DateTime())->format('Y-m-d H:i:s');
     extract($_POST);
@@ -42,16 +41,16 @@ if($_POST['submit'])
         $dbConnection = parse_ini_file("Project.ini");
         extract($dbConnection);
         $conn = new PDO($dsn, $user, $password);
-        $sqlSave = "INSERT INTO Album (Title, Description, Owner_Id, Date_Updated, Accessibility_Code) VALUES( :title, :description, :userId, :dateUpdated, :accessibilityCode)";
+        $sqlSave = "INSERT INTO Album (`Title`, `Description`, `Owner_Id`, `Date_Updated`, `Accessibility_Code`) VALUES( :title, :description, :userId, :dateUpdated, :accessibilityCode)";
         $queryCourse = $conn->prepare($sqlSave);
-        $result=$queryCourse->execute(['title'=>$title,'description'=>$description,'userId'=>$userId, 'dateUpdated'=>$time, 'accessibilityCode'=>$access]);
+        $result=$queryCourse->execute([':title' => $title, ':description' => $description, ':userId' => $userId, ':dateUpdated' => $time, ':accessibilityCode' => $access]);
 
-        if($result)
+/*        if($result)
         {
             echo 'success';
         } else {
             echo 'no save';
-        }
+        } */
         
     }catch(Exeption $e){
         die("Please try again later");

@@ -1,8 +1,8 @@
 <?php 
-    session_start();
+    include('./common/Header.php'); 
+    
     if(!isset($_SESSION['user']) || $_SESSION['user'] === '') {
-         header("Location: Index.php");
-        
+         header("Location: Index.php");       
     } else {
         $userId =$_SESSION['user'];
     } 
@@ -10,8 +10,6 @@
     {
         $accessOption = $_SESSION['AccessOptions'];
     }
-
-    include('./common/Header.php'); 
     ?>
 <?php 
 $dbConnection = parse_ini_file("Project.ini");
@@ -33,25 +31,25 @@ $resultAlbum = $queryAlbum->fetchAll();
 //print_r($resultAlbum[4]["Title"]);
 $num = count($resultAlbum);
   
-if(isset($_POST["delect"]))
+if(isset($_POST["delete"]))
 {
 //    echo 'submit done';
     if(isset($_POST["deleteID"]))
     {
 //        print_r ($_POST["deleteID"]);
-        //delect
-        $sqlDelecte="DELETE FROM album WHERE Album_Id='{$_POST["deleteID"]}'&& Owner_Id='{$userId}' ";
-        $queryDele = $conn->prepare($sqlDelecte);
+        //delete
+        $sqldeletee="DELETE FROM album WHERE Album_Id='{$_POST["deleteID"]}'&& Owner_Id='{$userId}' ";
+        $queryDele = $conn->prepare($sqldeletee);
         $result=$queryDele->execute();
-        if($result)
+/*        if($result)
         {
             echo 'succ';            
         } else {
             echo 'false';    
-        }        
+        }        */
     }     
 }
-if($_POST['save'])
+if(isset($_POST['save']))
 {
     print_r($_POST['access']);
 }
@@ -59,10 +57,8 @@ if($_POST['save'])
 ?>
 
 
-<div class="container">
-    <p>數量43<?php print_r($num); ?></p>
-    
-    <h3> My Albums</h3>
+<div class="container">  
+    <h3>My Albums</h3>
     <h4>Welcome  <?php print_r($userName); ?> (not you? change user <a href="Login.php">here</a>)</h4>
     <p><a href="AddAlbum.php">Create a New Album</a></p>
     
@@ -107,8 +103,8 @@ if($_POST['save'])
                     }
                      
                         echo '</select></td>';
-//                     echo "<td><a onclick='return delectClicked('".$resultAlbum[$i]["Title"] ."')'>Delect</a></td>";
-                       echo "<td><a onclick='return delectClicked()' id='btnDelect'>Delect</a>"
+//                     echo "<td><a onclick='return deleteClicked('".$resultAlbum[$i]["Title"] ."')'>delete</a></td>";
+                       echo "<td><a onclick='return deleteClicked()' id='btndelete'>delete</a>"
                                 . "<input type='text' name='deleteID' value='".$resultAlbum[$i]["Album_Id"]."'></td>";
                        
                      echo "</tr>";
@@ -117,15 +113,15 @@ if($_POST['save'])
                 ?>
             </tbody>
         </table>
-         <input class="btn btn-primary" value="delect" type="submit" name="delect" id="submitBtn">
+         <input class="btn btn-primary" value="Delete" type="submit" name="delete" id="submitBtn">
           <input class="btn btn-primary" value="Save Change" type="submit" name="save" >
     </form>
     <script type="text/javascript">
-        function delectClicked(){
-            return confirm("Please confirm to delect this albumn? ");
+        function deleteClicked(){
+            return confirm("Please confirm to delete this albumn? ");
         }
-        //tie confirm delect 
-        document.querySelector("#btnDelect").addEventListener("click",function(){
+        //tie confirm delete 
+        document.querySelector("#btndelete").addEventListener("click",function(){
             alert("trigger submit")
             document.getElementById("submitBtn").click();
         },false)

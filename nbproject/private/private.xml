@@ -3,14 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Program%20Files/Ampps/www/CST8258Project/MyAlbums.php</file>
-            <file>file:/C:/Program%20Files/Ampps/www/CST8258Project/Index.php</file>
-            <file>file:/C:/Program%20Files/Ampps/www/CST8258Project/Login.php</file>
-            <file>file:/C:/Program%20Files/Ampps/www/CST8258Project/NewUser.php</file>
-            <file>file:/C:/Program%20Files/Ampps/www/CST8258Project/Functions.php</file>
-            <file>file:/C:/Program%20Files/Ampps/www/CST8258Project/Logout.php</file>
-            <file>file:/C:/Program%20Files/Ampps/www/CST8258Project/Common/Header.php</file>
-            <file>file:/C:/Program%20Files/Ampps/www/CST8258Project/Common/Footer.php</file>
+            <file>file:/var/www/html/arnold/project/CST8258Project-styles/MyPictures.php</file>
+            <file>file:/var/www/html/arnold/project/CST8258Project-styles/Common/Header.php</file>
+            <file>file:/var/www/html/arnold/project/CST8258Project-styles/Login.php</file>
+            <file>file:/var/www/html/arnold/project/CST8258Project-styles/Common/css/Styles.css</file>
+            <file>file:/var/www/html/arnold/project/CST8258Project-styles/Index.php</file>
+            <file>file:/var/www/html/arnold/project/CST8258Project-styles/MyAlbums.php</file>
+            <file>file:/var/www/html/arnold/project/CST8258Project-styles/UploadPictures.php</file>
+            <file>file:/var/www/html/arnold/project/CST8258Project-styles/Common/Footer.php</file>
+            <file>file:/var/www/html/arnold/project/CST8258Project-styles/Functions.php</file>
+            <file>file:/var/www/html/arnold/project/CST8258Project-styles/MyFriends.php</file>
         </group>
     </open-files>
 </project-private>

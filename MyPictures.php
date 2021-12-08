@@ -1,103 +1,119 @@
-<?php 
-    include('./common/Header.php'); ?>
+<?php
+include './Common/Header.php';
+include_once "Functions.php";
+
+$AlbumList = getALbumList($_SESSION['user']);
+$view = 'default';
+$errors = [];
+if (isset($_GET['album'])) {
+    $AlbumPictureList = getALbumPictureList($_GET['album']);
+    $selectedALbum = $_GET['album'];
+    $view = 'album';
+}
+if (isset($_GET['picture'])) {
+    $view = 'picture';
+    $picture = null;
+    foreach ($AlbumPictureList as $item) {
+        if ($item['Picture_Id'] == $_GET['picture']) {
+            $picture = $item;
+            break;
+        }
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $comment = (string) trim($_POST['comment'] ?? '');
+        if (0 == strlen($comment)) {
+            $errors[] = 'comment field is empty';
+        } else {
+            $pdo = getPDO();
+            $prepared = $pdo->prepare("INSERT INTO `comment` (`Author_Id`, `Picture_Id`, `Comment_Text`, `Date`) VALUES (:auth, :pic, :comm, :date)");
+            $params = [
+                'auth' => $_SESSION['user'],
+                'pic' => $picture['Picture_Id'] ?? 1,
+                'comm' => $comment,
+                'date' => date('Y-m-d H:i:s'),
+            ];
+            if (!$prepared->execute($params)) {
+                $errors[] = 'An error occured when saving comment';
+            }
+        }
+    }
+    $PictureCommentList = getPictureCommentsList($picture['Picture_Id']);
+}
+?>
 
 <div class="container mt-5">
-<div class="carousel-container position-relative row">
-  
+    <div class="row">
+        <div class="col-md-12">
+            <select name="albumchoice" onchange="changeAlbum(this)" class="form-control">
+                <option value="">--Select--</option>
+                <?php foreach ($AlbumList as $row) : ?>
+                    <option value="?album=<?= $row['Album_Id'] ?>" <?= $selectedALbum == $row['Album_Id'] ? ' selected' : '' ?>>
+                        <?= $row['Title'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
 
-  
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active" data-slide-number="0">
-      <img src="https://source.unsplash.com/Pn6iimgM-wo/1600x900/" class="d-block w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-    </div>
-    <div class="carousel-item" data-slide-number="1">
-      <img src="https://source.unsplash.com/tXqVe7oO-go/1600x900/" class="d-block w-100" alt="..." data-remote="https://source.unsplash.com/tXqVe7oO-go/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-    </div>
-    <div class="carousel-item" data-slide-number="2">
-      <img src="https://source.unsplash.com/qlYQb7B9vog/1600x900/" class="d-block w-100" alt="..." data-remote="https://source.unsplash.com/qlYQb7B9vog/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-    </div>
-    <div class="carousel-item" data-slide-number="3">
-      <img src="https://source.unsplash.com/QfEfkWk1Uhk/1600x900/" class="d-block w-100" alt="..." data-remote="https://source.unsplash.com/QfEfkWk1Uhk/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-    </div>
-    <div class="carousel-item" data-slide-number="4">
-      <img src="https://source.unsplash.com/CSIcgaLiFO0/1600x900/" class="d-block w-100" alt="..." data-remote="https://source.unsplash.com/CSIcgaLiFO0/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-    </div>
-    <div class="carousel-item" data-slide-number="5">
-      <img src="https://source.unsplash.com/a_xa7RUKzdc/1600x900/" class="d-block w-100" alt="..." data-remote="https://source.unsplash.com/a_xa7RUKzdc/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-    </div>
-    <div class="carousel-item" data-slide-number="6">
-      <img src="https://source.unsplash.com/uanoYn1AmPs/1600x900/" class="d-block w-100" alt="..." data-remote="https://source.unsplash.com/uanoYn1AmPs/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-    </div>
-    <div class="carousel-item" data-slide-number="7">
-      <img src="https://source.unsplash.com/_snqARKTgoc/1600x900/" class="d-block w-100" alt="..." data-remote="https://source.unsplash.com/_snqARKTgoc/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-    </div>
-    <div class="carousel-item" data-slide-number="8">
-      <img src="https://source.unsplash.com/M9F8VR0jEPM/1600x900/" class="d-block w-100" alt="..." data-remote="https://source.unsplash.com/M9F8VR0jEPM/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-    </div>
-    <div class="carousel-item" data-slide-number="9">
-      <img src="https://source.unsplash.com/Q1p7bh3SHj8/1600x900/" class="d-block w-100" alt="..." data-remote="https://source.unsplash.com/Q1p7bh3SHj8/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-    </div>
-  </div>
-</div>
-
-<!-- Carousel Navigation -->
-<div id="carousel-thumbs" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <div class="row mx-0">
-        <div id="carousel-selector-0" class="thumb col-4 col-sm-2 px-1 py-2 selected" data-target="#myCarousel" data-slide-to="0">
-          <img src="https://source.unsplash.com/Pn6iimgM-wo/600x400/" class="img-fluid" alt="...">
+    <?php if ('album' == $view): ?>
+        <?php foreach ($AlbumPictureList as $picture) : ?>
+            <a href="MyPictures.php?album=<?= $_GET['album'] ?>&picture=<?= $picture['Picture_Id'] ?>">
+                <img src="<?= $picture['File_Name'] ?>" class="img-thumb" alt="<?= $picture['Title'] ?>" />
+            </a>
+        <?php endforeach; ?>
+    <?php elseif ('picture' == $view): ?>
+        <h1><?= $picture['Title'] ?></h1>
+        <div class="row">
+            <div class="col-md-8">
+                <div>
+                    <img src="<?= $picture['File_Name'] ?>" class="img-fluid" alt="<?= $picture['Title'] ?>" />
+                </div>
+                <div style="overflow-x: scroll">
+                    <ul class="thumb-list">
+                        <?php foreach ($AlbumPictureList as $pictureItem) : ?>
+                            <?php $activ = $picture['Picture_Id'] == $pictureItem['Picture_Id'] ? ' active' : ''; ?>
+                            <li>
+                                <a href="MyPictures.php?album=<?= $_GET['album'] ?>&picture=<?= $_GET['picture'] ?>">
+                                    <img src="<?= $pictureItem['File_Name'] ?>" class="img-thumb<?= $activ ?>" alt="<?= $pictureItem['Title'] ?>" />
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h4>Description</h4>
+                <?= $picture['Description'] ?? '' ?>
+                <?php if (isset($PictureCommentList) && 0 < count($PictureCommentList)) : ?>
+                    <div class="mb-5">
+                        <h4>Comments</h4>
+                        <?php foreach ($PictureCommentList as $comment) : ?>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= $comment['Name'] ?></h5>
+                                    <h6 class="card-subtitle mb-2 text-muted"><?= $comment['Date'] ?></h6>
+                                    <p class="card-text"><?= nl2br($comment['Comment_Text']) ?></p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <form action="" method="post">
+                    <div class="form-group">
+                        <textarea class="form-control" name="comment" placeholder="Leave Comment..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                </form>
+            </div>
         </div>
-        <div id="carousel-selector-1" class="thumb col-4 col-sm-2 px-1 py-2" data-target="#myCarousel" data-slide-to="1">
-          <img src="https://source.unsplash.com/tXqVe7oO-go/600x400/" class="img-fluid" alt="...">
-        </div>
-        <div id="carousel-selector-2" class="thumb col-4 col-sm-2 px-1 py-2" data-target="#myCarousel" data-slide-to="2">
-          <img src="https://source.unsplash.com/qlYQb7B9vog/600x400/" class="img-fluid" alt="...">
-        </div>
-        <div id="carousel-selector-3" class="thumb col-4 col-sm-2 px-1 py-2" data-target="#myCarousel" data-slide-to="3">
-          <img src="https://source.unsplash.com/QfEfkWk1Uhk/600x400/" class="img-fluid" alt="...">
-        </div>
-        <div id="carousel-selector-4" class="thumb col-4 col-sm-2 px-1 py-2" data-target="#myCarousel" data-slide-to="4">
-          <img src="https://source.unsplash.com/CSIcgaLiFO0/600x400/" class="img-fluid" alt="...">
-        </div>
-        <div id="carousel-selector-5" class="thumb col-4 col-sm-2 px-1 py-2" data-target="#myCarousel" data-slide-to="5">
-          <img src="https://source.unsplash.com/a_xa7RUKzdc/600x400/" class="img-fluid" alt="...">
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="row mx-0">
-        <div id="carousel-selector-6" class="thumb col-4 col-sm-2 px-1 py-2" data-target="#myCarousel" data-slide-to="6">
-          <img src="https://source.unsplash.com/uanoYn1AmPs/600x400/" class="img-fluid" alt="...">
-        </div>
-        <div id="carousel-selector-7" class="thumb col-4 col-sm-2 px-1 py-2" data-target="#myCarousel" data-slide-to="7">
-          <img src="https://source.unsplash.com/_snqARKTgoc/600x400/" class="img-fluid" alt="...">
-        </div>
-        <div id="carousel-selector-8" class="thumb col-4 col-sm-2 px-1 py-2" data-target="#myCarousel" data-slide-to="8">
-          <img src="https://source.unsplash.com/M9F8VR0jEPM/600x400/" class="img-fluid" alt="...">
-        </div>
-        <div id="carousel-selector-9" class="thumb col-4 col-sm-2 px-1 py-2" data-target="#myCarousel" data-slide-to="9">
-          <img src="https://source.unsplash.com/Q1p7bh3SHj8/600x400/" class="img-fluid" alt="...">
-        </div>
-        <div class="col-2 px-1 py-2"></div>
-        <div class="col-2 px-1 py-2"></div>
-      </div>
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carousel-thumbs" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carousel-thumbs" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-
-</div> <!-- /row -->
+    <?php endif; ?>
 </div> <!-- /container -->
-<?php 
-    include('./common/Footer.php'); ?>
+<script>
+    function changeAlbum(e) {
+        window.location.href = 'MyPictures.php' + e.options[e.selectedIndex].value;
+    }
+</script>
+
+<?php include './Common/Footer.php'; ?>
 
 

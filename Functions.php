@@ -122,3 +122,48 @@ function ValidatePassword($password,$passwordAgain)
     return "";
 }
 
+
+
+/**
+ * 
+ * 
+ * 
+ * MY ADDED FUNCTIONS
+ * 
+ * 
+ */
+function getALbumList($userId)
+{
+    $pdo = getPDO();
+    $prepared = $pdo->prepare("SELECT `Album_Id`, `Title` FROM album WHERE `Owner_Id` = :sid");
+    $prepared->execute(['sid' => $userId]);
+    $list = $prepared->fetchAll(PDO::FETCH_ASSOC);
+    if (!$list) {
+        return [];
+    }
+    return $list;
+}
+
+function getALbumPictureList($Album_Id)
+{
+    $pdo = getPDO();
+    $prepared = $pdo->prepare("SELECT * FROM `picture` WHERE `Album_Id` = :sid");
+    $prepared->execute(['sid' => $Album_Id]);
+    $list = $prepared->fetchAll(PDO::FETCH_ASSOC);
+    if (!$list) {
+        return [];
+    }
+    return $list;
+}
+
+function getPictureCommentsList($Picture_Id)
+{
+    $pdo = getPDO();
+    $prepared = $pdo->prepare("SELECT c.*, u.Name FROM `comment` c, user u WHERE u.UserId=c.Author_id AND c.Picture_Id=:sid ORDER By c.Date DESC");
+    $prepared->execute(['sid' => $Picture_Id]);
+    $list = $prepared->fetchAll(PDO::FETCH_ASSOC);
+    if (!$list) {
+        return [];
+    }
+    return $list;
+}

@@ -33,20 +33,12 @@ $num = count($resultAlbum);
   
 if(isset($_POST["delete"]))
 {
-//    echo 'submit done';
     if(isset($_POST["deleteID"]))
     {
-//        print_r ($_POST["deleteID"]);
         //delete
         $sqldeletee="DELETE FROM album WHERE Album_Id='{$_POST["deleteID"]}'&& Owner_Id='{$userId}' ";
         $queryDele = $conn->prepare($sqldeletee);
         $result=$queryDele->execute();
-/*        if($result)
-        {
-            echo 'succ';            
-        } else {
-            echo 'false';    
-        }        */
     }     
 }
 if(isset($_POST['save']))
@@ -79,7 +71,8 @@ if(isset($_POST['save']))
                   for ($i=0; $i<$num;$i++) {
                       
                      echo "<tr>";
-                     echo "<td>" . $resultAlbum[$i]["Album_Id"] .$resultAlbum[$i]["Title"] . "</td>";
+                     echo "<td><a href='MyPictures.php?albumId=".$resultAlbum[$i]["Album_Id"]."'>" . $resultAlbum[$i]["Album_Id"] ." - ".$resultAlbum[$i]["Title"] . "</a></td>";
+;
                      echo "<td>" . $resultAlbum[$i]["Date_Updated"] . "</td>";
                      
                      //show picnum
@@ -88,22 +81,16 @@ if(isset($_POST['save']))
                     $queryPic->execute();
                     $resultPic = $queryPic->fetchAll();  
                      $numPic = count($resultPic);
-                     echo "<td>" .$numPic."</td>";
-                     
-                     //確認權限 停留在那
+                     echo "<td>" .$numPic."</td>";                     
                      
                      echo "<td> <select name='access'>";
-//                        foreach ($option as $accessOption)
-//                        {
-//                        echo "<option value='".$option."'".($resultAlbum[$i]["Accessibility_Code"]== $option? "selected":'')." >".$option."</option>". ""; 
-//                        }
+
                     foreach ($conn->query('SELECT * FROM accessibility ;') as $row)
                     {
                         echo '<option value="'.$row[0].'"'.($row[0]== $resultAlbum[$i]["Accessibility_Code"]? "selected":'').' >'.$row[1].'</option>';
                     }
                      
                         echo '</select></td>';
-//                     echo "<td><a onclick='return deleteClicked('".$resultAlbum[$i]["Title"] ."')'>delete</a></td>";
                        echo "<td><a onclick='return deleteClicked()' id='btndelete'>delete</a>"
                                 . "<input type='text' name='deleteID' value='".$resultAlbum[$i]["Album_Id"]."'></td>";
                        

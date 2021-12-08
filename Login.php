@@ -33,9 +33,10 @@ if(isset($loginSubmit)){
     ?>
 
 <div class="container">
+  <section class="vh-100 d-flex justify-content-center p-5" style="background-color: #eee; ">
     <div class="row mt-5">
-   <div class="col-lg-8 col-md-12">
-    <h2 mb-3>Log in</h2>
+   <div class="col-lg-6 col-md-12">
+    <h1 class="mb-2 text-success">Log in</h1>
     <br/>
    <p> You need to <a href="NewUser.php">sign up</a> if you are a new user</p>
     <br/>
@@ -52,7 +53,7 @@ if(isset($loginSubmit)){
              </div> 
         </div>
        
-         <div class="form-group row">
+         <div class="form-group row mb-5">
              <label for="password" class="col-sm-2 col-form-label fw-bold">Password:</label>
              <div class="col-sm-3">
                  <input type="password" class="form-control" name="password" id="password" value="<?php echo isset($password) ? $password :''?>">
@@ -64,9 +65,9 @@ if(isset($loginSubmit)){
       
          <div class="d-flex flex-row flex-wrap justify-content-between">
              <div col-3>
-        <input class="btn btn-primary" name="loginSubmit" type="submit" value="Submit" >
+        <input class="btn btn-success" name="loginSubmit" type="submit" value="Submit" >
         
-        <input class="btn btn-primary" name="clear" type="submit" value="Clear" >
+        <input class="btn btn-success" name="clear" type="submit" value="Clear" >
                
         </div>
              </div>
@@ -74,10 +75,11 @@ if(isset($loginSubmit)){
         </form>
     </div>
         
-        <div class="col-lg-4 col-md-12 justify-content-center">
-            <img src="Common/img/undraw_pair_programming_re_or4x.svg" class="img-fluid" alt="Sample image">
+        <div class="col-lg-6 col-md-12 ">
+            <img src="Common/img/undraw_secure_login_pdn4.svg" class="img-fluid p-3" alt="Sample image">
             </div>
-</div>
+         </div>
+      </section>
         </div>
 <?php include('./common/Footer.php'); ?>
 

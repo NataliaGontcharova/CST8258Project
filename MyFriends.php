@@ -95,7 +95,7 @@
             
              while($q_friend_row = $q_friends->fetch(PDO::FETCH_ASSOC)) {
                 echo "<tr>";
-                echo "<td><a href='".  ."'>" . $q_friend_row['Name'] . "</a></td>";
+                echo "<td><a href='". "TODO" ."'>" . $q_friend_row['Name'] . "</a></td>";
                 echo "<td>" . $q_friend_row['Albums'] . "</td>";
                 echo "<td><input name='friendrequest[]' type='checkbox' value='". $q_friend_row['UserId'] ."'/></td>";
                 echo "</tr>";

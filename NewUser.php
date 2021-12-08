@@ -33,14 +33,17 @@ extract($_POST);
     ?>
 
 <div class="container">
-    <h2>Sign up</h2>
+    <section class="vh-100 d-flex  p-5" style="background-color: #eee; ">
+     <div class="row mt-5">
+     <div class="col-lg-7 col-md-12">
+    <h2 class="mb-2 text-success">Sign up</h2>
     <br/>
    <p> All fields are required</p>
     <br/>
     
     <form action="newUser.php" method="post">
         <div class="form-group row">
-             <label for="userId" class="col-sm-2 col-form-label fw-bold">User ID:</label>
+             <label for="userId" class="col-sm-3 col-form-label fw-bold">User ID:</label>
              <div class="col-sm-3">
              <input type="text" class="form-control" name="userId" id="studentID" value="<?php echo isset($userId)? $userId : '' ?>" >
              </div>
@@ -57,7 +60,7 @@ extract($_POST);
         </div>
         
         <div class="form-group row">
-             <label for="name" class="col-sm-2 col-form-label fw-bold">Name:</label>
+             <label for="name" class="col-sm-3 col-form-label fw-bold">Name:</label>
              <div class="col-sm-3">
              <input type="text" class="form-control" name="name" id="name" value="<?php echo isset($name)? $name :'' ?>">
              </div>
@@ -68,7 +71,7 @@ extract($_POST);
                   
                  
         <div class="form-group row">
-            <label for="phone" class="col-sm-2 col-form-label fw-bold">Phone number:</br>
+            <label for="phone" class="col-sm-3 col-form-label fw-bold">Phone number:</br>
             <small class="text-muted">(nnn-nnn-nnnn)</small></label> 
             </label>
             <div class="col-sm-3">
@@ -80,7 +83,7 @@ extract($_POST);
          </div>
         
          <div class="form-group row">
-             <label for="password" class="col-sm-2 col-form-label fw-bold">Password:</label>
+             <label for="password" class="col-sm-3 col-form-label fw-bold">Password:</label>
              <div class="col-sm-3">
                  <input type="password" class="form-control" name="password" id="password" value="<?php echo isset($password)? $password:'' ?>">
              </div>
@@ -90,8 +93,8 @@ extract($_POST);
         </div>
         
         <div class="form-group row">
-             <label for="passwordAgain" class="col-sm-2 col-form-label fw-bold">Password Again:</label>
-             <div class="col-sm-3">
+             <label for="passwordAgain" class="col-sm-3 col-form-label fw-bold">Password Again:</label>
+             <div class="col-sm-3 mb-3">
                  <input type="password" class="form-control" name="passwordAgain" id="passwordAgain" value="<?php echo isset($passwordAgain)? $passwordAgain:'' ?>">
              </div>
              <div class="col-sm-3 text-danger">
@@ -101,20 +104,31 @@ extract($_POST);
         </div>
         
          
+         <div class="col-lg-6 col-md-12">
+             
+             </div>
          
-         
-         <div class="form-group row">
+        <div class="d-flex flex-row flex-wrap justify-content-between">
+             <div col-3>
            
-        <div class="col-md-1">
-        <input class="btn btn-primary" name="regSubmit" type="submit" value="Submit" >
+        
+        <input class="btn btn btn-success" name="regSubmit" type="submit" value="Submit" >
+          
+        <input class="btn btn btn-success" name="regClear" type="submit" value="Clear" >
+          
         </div>
-          <div class="col-md-1">   
-        <input class="btn btn-primary" name="regClear" type="submit" value="Clear" >
-           </div>     
-        </div>
+            </div>
         
         </form>
     </div>
+     <div class="col-lg-5 col-md-12 ">
+         
+         <img src="Common/img/undraw_dev_focus_re_6iwt.svg" class="img-fluid p-1 mt-5" alt="Sample image">
+            </div>
+         </div>
+    
+    </div>
+</section></div>
 <?php 
     include('./common/Footer.php'); ?>
 

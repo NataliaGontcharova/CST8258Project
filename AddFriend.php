@@ -100,12 +100,15 @@
 ?>
 
 <div class="container">
-    <h3> Add friend</h3>
+    <section class="vh-100"> 
+   
     
   
-    <div class="container">
-    <p>Welcome <?php echo $_SESSION['user'] ?>! (not you? change user <a href="login.php">  here.</a>)</p>
-    <p>Enter the ID of the user you want to friend with </p></br>
+    
+    <h1 class="text-success mt-3"> Add friend</h1>
+    
+    <p>Welcome<b> <?php echo $_SESSION['user'] ?>!</b> (not you? change user <a href="login.php">  here.</a>)</p>
+    <p class="mb-5">Enter the ID of the user you want to friend with </p>
   
  
     <div class="col-sm-3 text-danger">
@@ -123,7 +126,8 @@
 
         
 </div>
-    </div>
+    </section>
+
 <?php 
     include('./common/Footer.php'); ?>
 

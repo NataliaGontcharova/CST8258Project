@@ -34,6 +34,7 @@ extract($_POST);
 
 <div class="container">
     <section class="vh-100 d-flex  p-5" style="background-color: #eee; ">
+       
      <div class="row mt-5">
      <div class="col-lg-7 col-md-12">
     <h2 class="mb-2 text-success">Sign up</h2>
@@ -44,7 +45,7 @@ extract($_POST);
     <form action="newUser.php" method="post">
         <div class="form-group row">
              <label for="userId" class="col-sm-3 col-form-label fw-bold">User ID:</label>
-             <div class="col-sm-3">
+             <div class="col-sm-4">
              <input type="text" class="form-control" name="userId" id="studentID" value="<?php echo isset($userId)? $userId : '' ?>" >
              </div>
              <div class="col-sm-3 text-danger">
@@ -61,7 +62,7 @@ extract($_POST);
         
         <div class="form-group row">
              <label for="name" class="col-sm-3 col-form-label fw-bold">Name:</label>
-             <div class="col-sm-3">
+             <div class="col-sm-4">
              <input type="text" class="form-control" name="name" id="name" value="<?php echo isset($name)? $name :'' ?>">
              </div>
              <div class="col-sm-3 text-danger">
@@ -74,7 +75,7 @@ extract($_POST);
             <label for="phone" class="col-sm-3 col-form-label fw-bold">Phone number:</br>
             <small class="text-muted">(nnn-nnn-nnnn)</small></label> 
             </label>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
             <input type="text" class="form-control" name="phone" id="phone" value="<?php echo isset($phone) ? $phone:'' ?>" >
             </div>
             <div class="col-sm-3 text-danger">
@@ -84,7 +85,7 @@ extract($_POST);
         
          <div class="form-group row">
              <label for="password" class="col-sm-3 col-form-label fw-bold">Password:</label>
-             <div class="col-sm-3">
+             <div class="col-sm-4">
                  <input type="password" class="form-control" name="password" id="password" value="<?php echo isset($password)? $password:'' ?>">
              </div>
              <div class="col-sm-3 text-danger">
@@ -94,7 +95,7 @@ extract($_POST);
         
         <div class="form-group row">
              <label for="passwordAgain" class="col-sm-3 col-form-label fw-bold">Password Again:</label>
-             <div class="col-sm-3 mb-3">
+             <div class="col-sm-4 mb-4">
                  <input type="password" class="form-control" name="passwordAgain" id="passwordAgain" value="<?php echo isset($passwordAgain)? $passwordAgain:'' ?>">
              </div>
              <div class="col-sm-3 text-danger">

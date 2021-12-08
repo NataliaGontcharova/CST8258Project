@@ -47,7 +47,7 @@ if (isset($_GET['picture'])) {
             <select name="albumchoice" onchange="changeAlbum(this)" class="form-control">
                 <option value="">--Select--</option>
                 <?php foreach ($AlbumList as $row) : ?>
-                    <option value="?album=<?= $row['Album_Id'] ?>" <?= $selectedALbum == $row['Album_Id'] ? ' selected' : '' ?>>
+                    <option value="?album=<?= $row['Album_Id'] ?>" <?= (isset($selectedALbum) && $selectedALbum == $row['Album_Id']) ? ' selected' : '' ?>>
                         <?= $row['Title'] ?>
                     </option>
                 <?php endforeach; ?>

@@ -69,7 +69,7 @@ if(isset($_POST['save']))
                 <tr>
                     <th>Title</th>
                     <th>Date Update</th>
-                    <th>Number of Picture</th>
+                    <th>Number of Pictures</th>
                     <th>Accessibility</th>
                     <th> </th>
                 </tr>

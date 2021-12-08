@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mkdir($path);
         }
         $pdo = getPDO();
-        $prepared = $pdo->prepare("INSERT INTO `picture` (Album_Id, File_Name, Title, Description, Date_Added) VALUES (:Album_Id, :File_Name, :Title, :Description, :Date_Added)");
+        $prepared = $pdo->prepare("INSERT INTO `picture` (`Album_Id`, `File_Name`, `Title`, `Description`, `Date_Added`) VALUES (:Album_Id, :File_Name, :Title, :Description, :Date_Added)");
         // Loop through each file
         for ($i = 0; $i < $total; $i++) {
             //Get the temp file path

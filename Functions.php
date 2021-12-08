@@ -99,7 +99,7 @@ function ValidatePhone($phone)
         
 function ValidatePassword($password,$passwordAgain)
 {
-    return "";
+//    return "";
     
     if(!isset($password)&&!isset($passwordAgain))
         return"Password is required";
@@ -159,7 +159,7 @@ function getALbumPictureList($Album_Id)
 function getPictureCommentsList($Picture_Id)
 {
     $pdo = getPDO();
-    $prepared = $pdo->prepare("SELECT c.*, u.Name FROM `comment` c, user u WHERE u.UserId=c.Author_id AND c.Picture_Id=:sid ORDER By c.Date DESC");
+    $prepared = $pdo->prepare("SELECT c.*, u.Name FROM `comment` c, user u WHERE u.`UserId`=c.`Author_id` AND c.`Picture_Id`=:sid ORDER By c.`Date` DESC");
     $prepared->execute(['sid' => $Picture_Id]);
     $list = $prepared->fetchAll(PDO::FETCH_ASSOC);
     if (!$list) {

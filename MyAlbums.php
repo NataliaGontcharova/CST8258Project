@@ -125,7 +125,7 @@
                             echo '<option  value="'.$row[0].'"'.($row[0]== $resultAlbum[$i]["Accessibility_Code"]? "selected":'').' >'.$row[1].'</option>';
                         }
                         echo '</select><input style="display:none;" type="text" name="accID[]" value="'.$resultAlbum[$i]["Album_Id"].'"></td>';
-                        echo "<td><a onclick='return delectClicked(".$resultAlbum[$i]['Album_Id'].")' id='btnDelet' class='btn btn-primary' name='delect' value='delete'>Delete</a>"
+                        echo "<td><a onclick='return delectClicked(".$resultAlbum[$i]['Album_Id'].")' id='btnDelet' class='btn btn-success' name='delect' value='delete'>Delete</a>"
                                 . " <input style='display:none;'  type='checkbox' name='deleteID[]' value='".$resultAlbum[$i]["Album_Id"]."'id='".$resultAlbum[$i]["Album_Id"]."'></td>";                       
                          echo "</tr>";
                     }
@@ -136,7 +136,7 @@
                     <th></th>
                     <th>
                         <input class="btn btn-primary" value="delect" type="submit" name="delect" id="submitBtn" style='display:none;' >
-                        <input class="btn btn-primary" value="Save Change" type="submit" name="save" >                        
+                        <input class="btn btn-success" value="Save Change" type="submit" name="save" >                        
                     </th>
                     <th></th>                    
                 </tr>

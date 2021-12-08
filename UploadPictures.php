@@ -2,6 +2,11 @@
 include './Common/Header.php';
 include_once "Functions.php";
 
+    if(!isset($_SESSION['user']) || $_SESSION['user'] === '') {
+         header("Location: Index.php");
+    }
+
+
 # get list of album
 $AlbumList = getALbumList($_SESSION['user']);
 
@@ -64,10 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <div class="container">
-    <h3>Upload Pictures</h3
+    <h1 class="text-success mt-3">Upload Pictures</h1>
     <p>Accepted picture type: JPG(JPEG), GIF and PNG.</p>
     <p>You can upload multiple pictures at a time by pressing the shift key while selecting pictures.</p>
-    <p>When uploading multiple pictures, the title and description fields will be applied to all pictures.</p>
+    <p >When uploading multiple pictures, the title and description fields will be applied to all pictures.</p>
     <?php if (0 < count($errors)): ?>
         <div class="alert alert-danger"><?= implode('<br />', $errors) ?></div>
     <?php endif; ?>
@@ -106,8 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="reset" class="btn btn-primary">Clear</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="reset" class="btn btn-success">Clear</button>
         </div>
     </form>
     <?php if (empty($AlbumList)) : ?>

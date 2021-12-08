@@ -37,6 +37,24 @@ function getUserByIdAndPassword($userId, $password)
     return false;
 }
 
+function getUserNameById($userId)
+{
+    $pdo = getPDO();
+    
+    $prepared = $pdo->prepare("SELECT `Name` FROM User WHERE BINARY `UserID` = :sid");
+    
+    $prepared->execute( [':sid' => $userId]);
+
+    $row = $prepared->fetch(PDO::FETCH_ASSOC);
+    if($row)
+    {
+        return $row['Name'];
+    }
+   
+    return '';   
+}
+
+
 
 
 function checkIfUserExists($userId)
@@ -63,6 +81,7 @@ function checkIfUserExists($userId)
     
     return false;
 }
+
 
 
 
@@ -144,6 +163,18 @@ function getALbumList($userId)
     return $list;
 }
 
+function getFriendsAlbumList($userId)
+{
+    $pdo = getPDO();
+    $prepared = $pdo->prepare("SELECT `Album_Id`, `Title` FROM album WHERE `Owner_Id` = :sid and `Accessibility_Code`='shared'");
+    $prepared->execute(['sid' => $userId]);
+    $list = $prepared->fetchAll(PDO::FETCH_ASSOC);
+    if (!$list) {
+        return [];
+    }
+    return $list;
+}
+
 function getALbumPictureList($Album_Id)
 {
     $pdo = getPDO();
@@ -155,6 +186,7 @@ function getALbumPictureList($Album_Id)
     }
     return $list;
 }
+
 
 function getPictureCommentsList($Picture_Id)
 {

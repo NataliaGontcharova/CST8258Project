@@ -11,14 +11,14 @@
     extract($dbConnection);
     $conn = new PDO($dsn, $user, $password);
     //GET NAME
-    $sqlName = "SELECT name FROM user where userId='{$userId}'";
+    $sqlName = "SELECT `Name` FROM user where `UserId`='{$userId}'";
     $queryCourse = $conn->prepare($sqlName);
     $queryCourse->execute();
     $courseInfo = $queryCourse->fetch(PDO::FETCH_ASSOC);
-    $userName = $courseInfo["name"];
+    $userName = $courseInfo["Name"];
     $_SESSION['userName']= $userName;
     // Load Access Authority options
-    $sqlAlbum= "SELECT Album_Id, Title, Description, Date_Updated, Accessibility_Code FROM Album  WHERE Owner_Id = '{$userId}'";
+    $sqlAlbum= "SELECT `Album_Id`, `Title`, `Description`, `Date_Updated`, `Accessibility_Code` FROM Album  WHERE `Owner_Id` = '{$userId}'";
     $queryAlbum = $conn->prepare($sqlAlbum);
     $queryAlbum->execute();
     $resultAlbum = $queryAlbum->fetchAll();  
@@ -32,7 +32,17 @@
             //delect
             foreach($_POST["deleteID"] as $item)
             {
-                $sqlDelecte="DELETE FROM album WHERE Album_Id='{$item}'&& Owner_Id='{$userId}' ";
+                $sqlDelecte="DELETE FROM comment WHERE `Picture_Id` in (select `Picture_Id` from picture where `Album_Id`='{$item}') ";
+                $queryDele = $conn->prepare($sqlDelecte);
+                $result=$queryDele->execute();
+
+                
+                $sqlDelecte="DELETE FROM picture WHERE `Album_Id`='{$item}' ";
+                $queryDele = $conn->prepare($sqlDelecte);
+                $result=$queryDele->execute();
+
+                
+                $sqlDelecte="DELETE FROM album WHERE `Album_Id`='{$item}' and `Owner_Id`='{$userId}' ";
                 $queryDele = $conn->prepare($sqlDelecte);
                 $result=$queryDele->execute();
             }              
@@ -40,7 +50,7 @@
     } else {
         if(isset($_POST["deleteID"]))
         {
-            $sqlAlbum= "SELECT Album_Id, Title, Description, Date_Updated, Accessibility_Code FROM Album  WHERE Owner_Id = '{$userId}'";
+            $sqlAlbum= "SELECT `Album_Id`, `Title`, `Description`, `Date_Updated`, `Accessibility_Code` FROM Album  WHERE `Owner_Id` = '{$userId}'";
             $queryAlbum = $conn->prepare($sqlAlbum);
             $queryAlbum->execute();
             $resultAlbum = $queryAlbum->fetchAll();  
@@ -48,7 +58,7 @@
         }
     }  //if(isset($_POST["delect"]))
 
-    if($_POST['save'])
+    if(isset($_POST['save']))
     {
         if(isset($_POST["accID"])&& isset($_POST['access']))
         {
@@ -58,7 +68,7 @@
         //save acc
             for($i =0; $i< $numArrAlbumId;$i++)
             {
-                $sqlAcc = "UPDATE Album SET Accessibility_Code = '{$arraySelect[$i]}' WHERE Album_Id='{$arrayAlbumId[$i]}' and Owner_Id = '{$userId}'";
+                $sqlAcc = "UPDATE Album SET `Accessibility_Code` = '{$arraySelect[$i]}' WHERE `Album_Id`='{$arrayAlbumId[$i]}' and `Owner_Id` = '{$userId}'";
                 $queryACC = $conn->prepare($sqlAcc);
                 $resultACC=$queryACC->execute();
             }
@@ -91,9 +101,10 @@
  </script>
 
 <div class="container">  
-    <h3> My Albums</h3>
-    <h4>Welcome  <?php print_r($userName); ?> (not you? change user <a href="Login.php">here</a>)</h4>
-    <p><a href="AddAlbum.php">Create a New Album</a></p>        
+    <section class="vh-100">
+    <h1 class="text-success"> My Albums</h1>
+    <p>Welcome<b>  <?php print_r($userName); ?> </b>(not you? change user <a href="Login.php">here</a>)</p>
+    <p><b><a href="AddAlbum.php">Create a New Album</a></b></p>        
     <form action="MyAlbums.php" method="post">
         <table class="table">
             <thead>
@@ -125,7 +136,7 @@
                             echo '<option  value="'.$row[0].'"'.($row[0]== $resultAlbum[$i]["Accessibility_Code"]? "selected":'').' >'.$row[1].'</option>';
                         }
                         echo '</select><input style="display:none;" type="text" name="accID[]" value="'.$resultAlbum[$i]["Album_Id"].'"></td>';
-                        echo "<td><a onclick='return delectClicked(".$resultAlbum[$i]['Album_Id'].")' id='btnDelet' class='btn btn-primary' name='delect' value='delete'>Delete</a>"
+                        echo "<td><a onclick='return delectClicked(".$resultAlbum[$i]['Album_Id'].")' id='btnDelet' class='btn btn-success' name='delect' value='delete'>Delete</a>"
                                 . " <input style='display:none;'  type='checkbox' name='deleteID[]' value='".$resultAlbum[$i]["Album_Id"]."'id='".$resultAlbum[$i]["Album_Id"]."'></td>";                       
                          echo "</tr>";
                     }
@@ -135,8 +146,8 @@
                     <th></th>
                     <th></th>
                     <th>
-                        <input class="btn btn-primary" value="delect" type="submit" name="delect" id="submitBtn" style='display:none;' >
-                        <input class="btn btn-primary" value="Save Change" type="submit" name="save" >                        
+                        <input class="btn btn-success" value="delect" type="submit" name="delect" id="submitBtn" style='display:none;' >
+                        <input class="btn btn-success" value="Save Change" type="submit" name="save" >                        
                     </th>
                     <th></th>                    
                 </tr>
@@ -153,6 +164,9 @@
                   document.getElementById("submitBtn").click(); 
                   }
                 })          
-    </script>     
-</div>
+    </script> 
+    </div>
+</section>    
+
+
 <?php include('./common/Footer.php'); ?>

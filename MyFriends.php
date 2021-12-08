@@ -40,7 +40,7 @@
     
     $q_friends = $pdo->prepare(
        "SELECT `Name`,`UserId`, count(`Album_Id`) as `Albums` " 
-       ."FROM User left outer join Album on `User`.`UserId` = `Album`.`Owner_Id` " 
+       ."FROM User left outer join Album on `User`.`UserId` = `Album`.`Owner_Id` and `Accessibility_Code`='shared' " 
        ."WHERE `UserId` in "
             . "(Select `Friend_RequesterId` from Friendship "
              . "where BINARY `Friend_RequesteeId` = :uid and `Status` = 'accepted') or "
@@ -66,19 +66,17 @@
 ?>
 
 <div class="container">
-    <h3> My Friends page</h3>
+    <section class="vh-100">
+    <h1 class="text-center text-success mt-3"> My Friends page</h1>
   
-    <div class="container">
-    <h2 class="text-center"> Course Selection </h2>
-    <p>Welcome <?php echo $_SESSION['user'] ?>! (not you? change user <a href="login.php">  here.</a>)</p>
-    <p>Please note that the courses you have registered will not be displayed in the list. </p></br>
-  
-    <div>
-    
-    <div> 
-        Friends :
-        <a href="AddFriend.php"> Add friends <a/>
-    </div>
+    <p>Welcome<b> <?php echo $_SESSION['user'] ?>!</b> (not you? change user <a href="login.php">  here.</a>)</p>
+   
+    <div class="row mb-5">
+    <div class="col-lg-6 col-md-12">
+      <h4 class="text-success mt-3">Friends :</h4>
+      
+       <b> <a href="AddFriend.php"> Add friends <a/></b>
+   
     
     <form action="MyFriends.php" method="post">        
          <table class="table">
@@ -95,7 +93,7 @@
             
              while($q_friend_row = $q_friends->fetch(PDO::FETCH_ASSOC)) {
                 echo "<tr>";
-                echo "<td><a href='". "TODO" ."'>" . $q_friend_row['Name'] . "</a></td>";
+                echo "<td><a href='FriendPictures.php?friend=". $q_friend_row['UserId'] ."'>" . $q_friend_row['Name'] . "</a></td>";
                 echo "<td>" . $q_friend_row['Albums'] . "</td>";
                 echo "<td><input name='friendrequest[]' type='checkbox' value='". $q_friend_row['UserId'] ."'/></td>";
                 echo "</tr>";
@@ -105,14 +103,14 @@
                 </tbody>
           </table>
          
-          <input class="btn btn-primary" value="Defriend Selected" type="submit" name="DenyFriendship" >        
+          <input class="btn btn-success" value="Defriend Selected" type="submit" name="DenyFriendship" >        
         
         </form>
-
-        <div>
-            Friend requests:
-            
-        </div>
+            </div>
+</div>
+    <div class="row">
+     <div class="col-lg-6 col-md-12">
+       <h4 class="text-success mt-3">Friends requests:</h4>
         
         <form action="MyFriends.php" method="post"> 
          <table class="table">
@@ -138,13 +136,14 @@
                 </tbody>
           </table>
          
-          <input class="btn btn-primary" value="Accept Selected" type="submit" name="AcceptFriendship" >        
-          <input class="btn btn-primary" value="Deny Selected" type="submit" name="DenyFriendship" >        
+          <input class="btn btn-success" value="Accept Selected" type="submit" name="AcceptFriendship" >        
+          <input class="btn btn-success" value="Deny Selected" type="submit" name="DenyFriendship" >        
         
         </form>
-
+</div>
         
 </div>
+    </section>
     </div>
 <?php 
     include('./common/Footer.php'); ?>

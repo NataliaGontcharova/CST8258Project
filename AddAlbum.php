@@ -60,8 +60,8 @@ if(isset($_POST['submit']))
 ?>
 <link rel="stylesheet" href="./Common/css/albumn.css">   
 <div class="container">
-    <h3>Create New Album</h3>
-    <h4>Welcome  <?php print_r($userName); ?> (not you? change user <a href="Login.php">here</a>)</h4>
+    <h1 class="text-success mt-3">Create New Album</h1>
+    <h4 class="mb-2">Welcome  <?php print_r($userName); ?> (not you? change user <a href="Login.php">here</a>)</h4>
     <form action="AddAlbum.php" method="post" class="row">
         <p class="col-md-3">Title</p>
         <p class="col-md-9">
@@ -92,8 +92,8 @@ if(isset($_POST['submit']))
             </p>
         </p>
         <p class="col-md-12">
-            <input type="submit" name="submit" value="submit" class="btn-primary btn" style="margin-right: 1.5rem ">
-             <input type="submit" name="reset" value="Reset" class="btn-primary btn" >
+            <input type="submit" name="submit" value="Submit" class="btn-success btn" style="margin-right: 1.5rem ">
+             <input type="submit" name="reset" value="Reset" class="btn-success btn" >
         </p>
         
     </form>

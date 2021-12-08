@@ -2,17 +2,16 @@
 include './Common/Header.php';
 include_once "Functions.php";
 
-if(!isset($_SESSION['user']) || $_SESSION['user'] === '') {
-     header("Location: Index.php");
+if (isset($_GET['friend'])) {
+    $friendId =$_GET['friend'];
 }
+else
+    exit();
 
 
-//query string
-if(isset($_GET['albumId'])) {
-   $albumId = $_GET['albumId'];   
-}
+$friendName =  getUserNameById($friendId);
 
-$AlbumList = getALbumList($_SESSION['user']);
+$AlbumList = getFriendsAlbumList($friendId);
 $view = 'default';
 $errors = [];
 if (isset($_GET['album'])) {
@@ -52,13 +51,13 @@ if (isset($_GET['picture'])) {
 ?>
 
 <div class="container mt-5">
-    <h1>My pictures</h1>
+    <h1><?php echo $friendName?>'s Pictures</h1>
     <div class="row">
         <div class="col-md-12">
             <select name="albumchoice" onchange="changeAlbum(this)" class="form-control">
                 <option value="">--Select--</option>
                 <?php foreach ($AlbumList as $row) : ?>
-                    <option value="?album=<?= $row['Album_Id'] ?>" <?= (isset($selectedALbum) && $selectedALbum == $row['Album_Id']) ? ' selected' : '' ?>>
+                    <option value="?album=<?= $row['Album_Id'] ?>&friend=<?= $friendId ?>" <?= (isset($selectedALbum) && $selectedALbum == $row['Album_Id']) ? ' selected' : '' ?>>
                         <?= $row['Title'] ?>
                     </option>
                 <?php endforeach; ?>
@@ -68,12 +67,12 @@ if (isset($_GET['picture'])) {
 
     <?php if ('album' == $view): ?>
         <?php foreach ($AlbumPictureList as $picture) : ?>
-            <a href="MyPictures.php?album=<?= $_GET['album'] ?>&picture=<?= $picture['Picture_Id'] ?>">
+            <a href="FriendPictures.php?album=<?= $_GET['album'] ?>&picture=<?= $picture['Picture_Id'] ?>&friend=<?= $friendId ?>">
                 <img src="<?= $picture['File_Name'] ?>" class="img-thumb" alt="<?= $picture['Title'] ?>" />
             </a>
         <?php endforeach; ?>
     <?php elseif ('picture' == $view): ?>
-        <h1><?= $picture['Title'] ?></h1>
+        <h2><?= $picture['Title'] ?></h2>
         <div class="row">
             <div class="col-md-8">
                 <div>
@@ -84,7 +83,7 @@ if (isset($_GET['picture'])) {
                         <?php foreach ($AlbumPictureList as $pictureItem) : ?>
                             <?php $activ = $picture['Picture_Id'] == $pictureItem['Picture_Id'] ? ' active' : ''; ?>
                             <li>
-                                <a href="MyPictures.php?album=<?= $_GET['album'] ?>&picture=<?= $pictureItem['Picture_Id'] ?>">
+                                <a href="FriendPictures.php?album=<?= $_GET['album'] ?>&picture=<?= $pictureItem['Picture_Id'] ?>&friend=<?= $friendId ?>">
                                     <img src="<?= $pictureItem['File_Name'] ?>" class="img-thumb<?= $activ ?>" alt="<?= $pictureItem['Title'] ?>" />
                                 </a>
                             </li>
@@ -121,7 +120,7 @@ if (isset($_GET['picture'])) {
 </div> <!-- /container -->
 <script>
     function changeAlbum(e) {
-        window.location.href = 'MyPictures.php' + e.options[e.selectedIndex].value;
+        window.location.href = 'FriendPictures.php' + e.options[e.selectedIndex].value;
     }
 </script>
 

@@ -99,6 +99,8 @@ function ValidatePhone($phone)
         
 function ValidatePassword($password,$passwordAgain)
 {
+    return "";
+    
     if(!isset($password)&&!isset($passwordAgain))
         return"Password is required";
     

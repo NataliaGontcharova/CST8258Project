@@ -3,7 +3,9 @@ include './Common/Header.php';
 include_once "Functions.php";
 
 //query string
-$albumId = $_GET['albumId'];
+if(isset($_GET['albumId'])) {
+   $albumId = $_GET['albumId'];   
+}
 
 $AlbumList = getALbumList($_SESSION['user']);
 $view = 'default';

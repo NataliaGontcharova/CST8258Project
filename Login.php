@@ -1,6 +1,5 @@
 <?php 
-session_start();
-    include('./common/Header.php'); 
+include('./common/Header.php'); 
    
 include_once "Functions.php";
 
@@ -34,12 +33,15 @@ if(isset($loginSubmit)){
     ?>
 
 <div class="container">
-    <h2>Log in</h2>
+    <div class="row mt-5">
+   <div class="col-lg-8 col-md-12">
+    <h2 mb-3>Log in</h2>
     <br/>
    <p> You need to <a href="NewUser.php">sign up</a> if you are a new user</p>
     <br/>
     
     <form action="Login.php" method="post">
+         
         <div class="form-group row">
              <label for="StudentId" class="col-sm-2 col-form-label fw-bold">User ID:</label>
              <div class="col-sm-3">
@@ -60,17 +62,22 @@ if(isset($loginSubmit)){
              </div> 
         </div>
       
-         <div class="form-group row">
-           
-        <div class="col-md-2">
+         <div class="d-flex flex-row flex-wrap justify-content-between">
+             <div col-3>
         <input class="btn btn-primary" name="loginSubmit" type="submit" value="Submit" >
-        </div>
-          <div class="col-md-1">   
+        
         <input class="btn btn-primary" name="clear" type="submit" value="Clear" >
-           </div>     
+               
         </div>
+             </div>
         
         </form>
-
+    </div>
+        
+        <div class="col-lg-4 col-md-12 justify-content-center">
+            <img src="Common/img/undraw_pair_programming_re_or4x.svg" class="img-fluid" alt="Sample image">
+            </div>
+</div>
+        </div>
 <?php include('./common/Footer.php'); ?>
 

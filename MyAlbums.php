@@ -1,11 +1,10 @@
 <?php 
-    session_start();
+    include('./common/Header.php'); 
     if(!isset($_SESSION['user']) || $_SESSION['user'] === '') {
          header("Location: Index.php");        
     } else {
         $userId =$_SESSION['user'];
     } 
-    include('./common/Header.php'); 
     ?>
 <?php 
     $dbConnection = parse_ini_file("Project.ini");
@@ -110,7 +109,7 @@
                 <?php                
                     for ($i=0; $i<$num;$i++) {                      
                         echo "<tr>";
-                        echo "<td><a href='MyPictures.php?albumId=".$resultAlbum[$i]["Album_Id"]."'>".$resultAlbum[$i]["Title"] . "</a></td>";
+                        echo "<td><a href='MyPictures.php?album=".$resultAlbum[$i]["Album_Id"]."'>".$resultAlbum[$i]["Title"] . "</a></td>";
                         echo "<td>" . $resultAlbum[$i]["Date_Updated"] . "</td>";                     
                         //show picnum
                             $sqlPic = "SELECT Picture_Id FROM Picture WHERE Album_Id = {$resultAlbum[$i]["Album_Id"]}";

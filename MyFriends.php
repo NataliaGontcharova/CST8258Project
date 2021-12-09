@@ -25,7 +25,8 @@
     if(isset($DenyFriendship)) {       
          $q_friend_requests = $pdo->prepare(
            "delete from Friendship  " 
-           ."WHERE BINARY `Friend_RequesteeId` = :uid and `Friend_RequesterId` = :fid");
+           ."WHERE (BINARY `Friend_RequesteeId` = :uid and `Friend_RequesterId` = :fid) or "
+                 . "(BINARY `Friend_RequesteeId` = :fid and `Friend_RequesterId` = :uid)");
 
           foreach ($friendrequest as $v => $FriendId) {
               $q_friend_requests->execute( [':uid' => $user, ':fid' => $FriendId] );    

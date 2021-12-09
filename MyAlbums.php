@@ -102,7 +102,7 @@
 
 <div class="container">  
     <section class="vh-100">
-    <h1 class="text-success"> My Albums</h1>
+    <h1 class="text-center text-success mt-3"> My Albums</h1>
     <p>Welcome<b>  <?php print_r($userName); ?> </b>(not you? change user <a href="Login.php">here</a>)</p>
     <p><b><a href="AddAlbum.php">Create a New Album</a></b></p>        
     <form action="MyAlbums.php" method="post">

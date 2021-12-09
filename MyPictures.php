@@ -52,7 +52,8 @@ if (isset($_GET['picture'])) {
 ?>
 
 <div class="container mt-5">
-    <h1>My pictures</h1>
+    <section class="vh-100">
+    <h1 class="text-success">My pictures</h1>
     <div class="row">
         <div class="col-md-12">
             <select name="albumchoice" onchange="changeAlbum(this)" class="form-control">
@@ -113,12 +114,13 @@ if (isset($_GET['picture'])) {
                     <div class="form-group">
                         <textarea class="form-control" name="comment" placeholder="Leave Comment..."></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                    <button type="submit" class="btn btn-success">Add Comment</button>
                 </form>
             </div>
         </div>
     <?php endif; ?>
 </div> <!-- /container -->
+</section>
 <script>
     function changeAlbum(e) {
         window.location.href = 'MyPictures.php' + e.options[e.selectedIndex].value;

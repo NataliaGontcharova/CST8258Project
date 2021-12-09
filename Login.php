@@ -24,8 +24,8 @@ if(isset($loginSubmit)){
       }
  }
  else {
-    if(isset($regClear)){
-        $userI = '';
+    if(isset($clear)){
+        $userId = '';
         $password = '';    
     }
 }

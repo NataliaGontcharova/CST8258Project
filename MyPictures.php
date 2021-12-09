@@ -6,12 +6,6 @@ if(!isset($_SESSION['user']) || $_SESSION['user'] === '') {
      header("Location: Index.php");
 }
 
-
-//query string
-if(isset($_GET['albumId'])) {
-   $albumId = $_GET['albumId'];   
-}
-
 $AlbumList = getALbumList($_SESSION['user']);
 $view = 'default';
 $errors = [];

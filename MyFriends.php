@@ -69,7 +69,7 @@
     <section class="vh-100">
     <h1 class="text-center text-success mt-3"> My Friends page</h1>
   
-    <p>Welcome<b> <?php echo $_SESSION['user'] ?>!</b> (not you? change user <a href="login.php">  here.</a>)</p>
+    <p>Welcome<b> <?php echo $_SESSION['userName'] ?>!</b> (not you? change user <a href="login.php">  here.</a>)</p>
    
     <div class="row mb-5">
     <div class="col-lg-6 col-md-12">
